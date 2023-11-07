@@ -140,6 +140,25 @@ void handleEvents(sf::RenderWindow& window, Hero& hero)
     sf::Event event{};
     while (window.pollEvent(event))
     {
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::W)
+            {
+                hero.moveUp();
+            }
+            if (event.key.code == sf::Keyboard::S)
+            {
+                hero.moveDown();
+            }
+            if (event.key.code == sf::Keyboard::D)
+            {
+                hero.moveRight();
+            }
+            if (event.key.code == sf::Keyboard::A)
+            {
+                hero.moveLeft();
+            }
+        }
         if (event.type == sf::Event::KeyReleased)
         {
             if (event.key.code == sf::Keyboard::Escape)
@@ -148,6 +167,19 @@ void handleEvents(sf::RenderWindow& window, Hero& hero)
             }
             if (event.key.code == sf::Keyboard::W)
             {
+                hero.stopUp();
+            }
+            if (event.key.code == sf::Keyboard::S)
+            {
+                hero.stopDown();
+            }
+            if (event.key.code == sf::Keyboard::D)
+            {
+                hero.stopRight();
+            }
+            if (event.key.code == sf::Keyboard::A)
+            {
+                hero.stopLeft();
             }
         }
     }
@@ -160,7 +192,7 @@ void update(sf::Clock& clock, Hero& hero, std::vector<Enemy>& enemies)
     enemiesCollision(enemies, elapsedTime);
     for (Enemy& enemy : enemies)
     {
-        enemy.moveToHero(elapsedTime, hero);
+        enemy.move(elapsedTime, hero);
         enemy.update();
     }
 }
@@ -184,7 +216,7 @@ int main()
     Hero knight(KNIGHT_PATH);
     knight.setPosition({ (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 });
     std::vector<Enemy> enemies;
-    generateEnemies(enemies, 50);
+    generateEnemies(enemies, 500);
 
     sf::Clock clock;
     while (window.isOpen())

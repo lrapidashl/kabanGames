@@ -1,25 +1,18 @@
 #ifndef KABAN_GAMES_HERO_H
 #define KABAN_GAMES_HERO_H
 #include <Graphics.hpp>
+#include "Direction.h"
 
 class Hero : public sf::Drawable
 {
 private:
-    enum struct Direction
-    {
-        NONE,
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-    };
 
     sf::Texture            texture;
     sf::Sprite             sprite;
     sf::Vector2f           position = { -100, -100 };
     sf::Vector2f           size = { 40, 60 };
     float                  speed = 80;
-    std::vector<Direction> keyPressed {Direction::NONE};
+    std::vector<Direction> directions {};
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -30,7 +23,25 @@ public:
 
     void setPosition(sf::Vector2f position);
 
-    void move();
+    float getSpeed() const;
+
+    std::vector<Direction> getDirections() const;
+
+    void moveUp();
+
+    void moveDown();
+
+    void moveRight();
+
+    void moveLeft();
+
+    void stopUp();
+
+    void stopDown();
+
+    void stopRight();
+
+    void stopLeft();
 
     void update(float elapsedTime);
 };

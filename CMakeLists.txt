@@ -17,7 +17,8 @@ add_executable(kabanGames main.cpp
         Hero.cpp
         Hero.h
         Enemy.cpp
-        Enemy.h)
+        Enemy.h
+        Direction.h)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)

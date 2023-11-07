@@ -12,9 +12,15 @@ private:
     sf::Vector2f size = { 55, 30 };
     float speed = 50;
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
     static float getVectorLength(sf::Vector2f vector);
+
+    bool isDirectionInVector(std::vector<Direction>, Direction);
+
+    void moveByHeroDirection(float elapsedTime, const Hero& hero);
+
+    void moveToHero(float elapsedTime, const Hero& hero);
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 public:
     Enemy(const std::string& spriteName, sf::Vector2f position);
@@ -29,9 +35,9 @@ public:
 
     sf::Vector2f getSize() const;
 
-    void moveToHero(float elapsedTime, const Hero& hero);
-
     float getSpeed() const;
+
+    void move(float elapsedTime, const Hero& hero);
 
     void update();
 };
