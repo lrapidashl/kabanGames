@@ -14,11 +14,23 @@ find_package(SFML 2 COMPONENTS window graphics system REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})
 
 add_executable(kabanGames main.cpp
-        Hero.cpp
-        Hero.h
-        Enemy.cpp
-        Enemy.h
-        Direction.h)
+        Hero/Hero.cpp
+        Hero/Hero.h
+        Enemy/Enemy.cpp
+        Enemy/Enemy.h
+        Common/Direction.h
+        Hero/Weapon.cpp
+        Hero/Weapon.h
+        Common/Direction.cpp
+        Enemy/Enemies.cpp
+        Enemy/Enemies.h
+        Common/Random.h
+        Common/Random.cpp
+        Common/GameConsts.h
+        Common/Side.h
+        Common/Side.cpp
+        Common/DrawableEntity.cpp
+        Common/DrawableEntity.h)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)

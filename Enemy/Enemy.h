@@ -1,27 +1,19 @@
 #ifndef KABAN_GAMES_ENEMY_H
 #define KABAN_GAMES_ENEMY_H
-#include <Graphics.hpp>
-#include "Hero.h"
+#include "Graphics.hpp"
+#include "../Hero/Hero.h"
+#include "../Common/DrawableEntity.h"
 
-class Enemy : public sf::Drawable
+class Enemy : public DrawableEntity
 {
 private:
-    sf::Texture  texture;
-    sf::Sprite   sprite;
-    sf::Vector2f position;
-    sf::Vector2f size = { 55, 30 };
     float speed = 50;
 
     static float getVectorLength(sf::Vector2f vector);
 
-    bool isDirectionInVector(std::vector<Direction>, Direction);
-
     void moveByHeroDirection(float elapsedTime, const Hero& hero);
 
     void moveToHero(float elapsedTime, const Hero& hero);
-
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 public:
     Enemy(const std::string& spriteName, sf::Vector2f position);
 
@@ -29,17 +21,9 @@ public:
 
     Enemy(const Enemy& other);
 
-    sf::Vector2f getPosition() const;
-
-    void setPosition(sf::Vector2f position);
-
-    sf::Vector2f getSize() const;
-
     float getSpeed() const;
 
     void move(float elapsedTime, const Hero& hero);
-
-    void update();
 };
 
 #endif //KABAN_GAMES_ENEMY_H
