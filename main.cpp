@@ -4,6 +4,7 @@
 #include "Enemy/Enemies.h"
 #include "Common/GameConsts.h"
 #include "Weapon/Sword.h"
+#include "Bow.h"
 
 void createWindow(sf::RenderWindow& window)
 {
@@ -70,7 +71,7 @@ void update(sf::Clock& clock, Hero& hero, Enemies& enemies)
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
-    hero.attack(elapsedTime);
+    hero.attack(elapsedTime, enemies.getEnemiesPositions());
 
     enemies.enemiesCollision(elapsedTime);
     enemies.move(elapsedTime, hero);
@@ -101,11 +102,12 @@ int main()
     createWindow(window);
 
     Sword sword(SWORD_PATH);
+    Bow bow(SWORD_PATH);
 
-    Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, std::make_shared<Sword>(sword));
+    Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, {std::make_shared<Sword>(sword), std::make_shared<Bow>(bow)});
 
     Enemies enemies;
-    enemies.add(BOAR_PATH, 1);
+    enemies.add(BOAR_PATH, 50);
 
     sf::Clock clock;
     while (window.isOpen())

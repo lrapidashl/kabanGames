@@ -216,7 +216,7 @@ public:
 /// listener in the 3D audio environment (position, direction and
 /// up vector), and to adjust the global volume.
 ///
-/// Because the listener is unique in the scene, sf::Listener only
+/// Because the listener is shared in the scene, sf::Listener only
 /// contains static functions and doesn't have to be instantiated.
 ///
 /// Usage example:

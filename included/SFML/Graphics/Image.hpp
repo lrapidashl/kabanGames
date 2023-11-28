@@ -62,7 +62,7 @@ public:
     ~Image();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Create the image and fill it with a unique color
+    /// \brief Create the image and fill it with a shared color
     ///
     /// \param width  Width of the image
     /// \param height Height of the image
@@ -285,7 +285,7 @@ private:
 /// functions to load, read, write and save pixels, as well
 /// as many other useful functions.
 ///
-/// sf::Image can handle a unique internal representation of
+/// sf::Image can handle a shared internal representation of
 /// pixels, which is RGBA 32 bits. This means that a pixel
 /// must be composed of 8 bits red, green, blue and alpha
 /// channels -- just like a sf::Color.

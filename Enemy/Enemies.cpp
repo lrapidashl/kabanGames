@@ -35,6 +35,17 @@ void Enemies::add(const std::string &spriteName, int enemiesCount, Side side) {
     }
 }
 
+std::vector<sf::Vector2f> Enemies::getEnemiesPositions()
+{
+    std::vector<sf::Vector2f> enemiesPositions;
+    for (const Enemy& enemy : enemies)
+    {
+        enemiesPositions.push_back(enemy.getPosition());
+    }
+    return enemiesPositions;
+}
+
+
 std::vector<Enemy> Enemies::getEnemies()
 {
     return enemies;

@@ -52,7 +52,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Decode a single UTF-8 character
     ///
-    /// Decoding a character means finding its unique 32-bits
+    /// Decoding a character means finding its shared 32-bits
     /// code (called the codepoint) in the Unicode standard.
     ///
     /// \param begin       Iterator pointing to the beginning of the input sequence
@@ -69,7 +69,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Encode a single UTF-8 character
     ///
-    /// Encoding a character means converting a unique 32-bits
+    /// Encoding a character means converting a shared 32-bits
     /// code (called the codepoint) in the target encoding, UTF-8.
     ///
     /// \param input       Codepoint to encode as UTF-8
@@ -259,7 +259,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Decode a single UTF-16 character
     ///
-    /// Decoding a character means finding its unique 32-bits
+    /// Decoding a character means finding its shared 32-bits
     /// code (called the codepoint) in the Unicode standard.
     ///
     /// \param begin       Iterator pointing to the beginning of the input sequence
@@ -276,7 +276,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Encode a single UTF-16 character
     ///
-    /// Encoding a character means converting a unique 32-bits
+    /// Encoding a character means converting a shared 32-bits
     /// code (called the codepoint) in the target encoding, UTF-16.
     ///
     /// \param input       Codepoint to encode as UTF-16
@@ -466,7 +466,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Decode a single UTF-32 character
     ///
-    /// Decoding a character means finding its unique 32-bits
+    /// Decoding a character means finding its shared 32-bits
     /// code (called the codepoint) in the Unicode standard.
     /// For UTF-32, the character value is the same as the codepoint.
     ///
@@ -484,7 +484,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Encode a single UTF-32 character
     ///
-    /// Encoding a character means converting a unique 32-bits
+    /// Encoding a character means converting a shared 32-bits
     /// code (called the codepoint) in the target encoding, UTF-32.
     /// For UTF-32, the codepoint is the same as the character value.
     ///

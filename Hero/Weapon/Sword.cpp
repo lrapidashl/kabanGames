@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Sword.h"
 
 Sword::Sword(const std::string& spriteName, sf::Vector2f position)
@@ -11,17 +10,22 @@ Sword::Sword(const Sword &other)
 {
 }
 
-void Sword::move(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Vector2f& scale)
+void Sword::setDefaultPosition()
+{
+
+}
+
+void Sword::move(float elapsedTime, std::shared_ptr<HeroInterface> hero, const std::vector<sf::Vector2f>& enemiesPositions)
 {
     setOrigin({ 0, 0 });
-    if (scale.x < 0)
+    if (hero->getScale().x < 0)
     {
-        setPosition({ position.x - size.x / 2, position.y - getSize().y / 2 });
+        setPosition({ hero->getPosition().x - hero->getSize().x / 2, hero->getPosition().y - getSize().y / 2 });
         setScale({ -1, 1 });
     }
-    else if (scale.x > 0)
+    else if (hero->getSize().x > 0)
     {
-        setPosition({ position.x + size.x / 2, position.y - getSize().y / 2 });
+        setPosition({ hero->getPosition().x + hero->getSize().x / 2, hero->getPosition().y - getSize().y / 2 });
         setScale({ 1, 1 });
     }
 }

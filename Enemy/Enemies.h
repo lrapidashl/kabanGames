@@ -15,6 +15,8 @@ public:
 
     std::vector<Enemy> getEnemies();
 
+    std::vector<sf::Vector2f> getEnemiesPositions();
+
     void enemiesCollision(float elapsedTime);
 
     void move(float elapsedTime, const Hero& hero);

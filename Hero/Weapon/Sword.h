@@ -2,7 +2,6 @@
 #define KABAN_GAMES_SWORD_H
 
 #include "Weapon.h"
-#include "Hero.h"
 
 class Sword : public Weapon
 {
@@ -13,7 +12,9 @@ public:
 
     Sword(const Sword& sword);
 
-    void move(const sf::Vector2f& position, const sf::Vector2f& size, const sf::Vector2f& scale) override;
+    void setDefaultPosition() override;
+
+    void move(float elapsedTime, std::shared_ptr<HeroInterface> hero, const std::vector<sf::Vector2f>& enemiesPositions) override;
 };
 
 #endif //KABAN_GAMES_SWORD_H

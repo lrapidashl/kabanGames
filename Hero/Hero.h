@@ -4,26 +4,28 @@
 #include <memory>
 #include "Graphics.hpp"
 #include "GameConsts.h"
-#include "DrawableEntity.h"
 #include "Weapon.h"
+#include "HeroInterface.h"
 
-class Hero : public DrawableEntity
+class Hero : public HeroInterface
 {
 private:
-    std::vector<std::shared_ptr<Weapon>>    weapons {};
-    float                                   speed = 80;
-    std::vector<Direction>                  directions {};
+    std::vector<std::shared_ptr<Weapon>> weapons {};
+    float                                speed = 80;
+    std::vector<Direction>               directions {};
 
 public:
     Hero(const std::string& spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons);
 
     Hero(const std::string& spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon);
 
+    explicit Hero(Hero *other);
+
     std::vector<std::shared_ptr<Weapon>> getWeapons() const;
 
-    float getSpeed() const;
+    float getSpeed() const override;
 
-    std::vector<Direction> getDirections() const;
+    std::vector<Direction> getDirections() const override;
 
     void moveUp();
 
@@ -43,7 +45,7 @@ public:
 
     void move();
 
-    void attack(float elapsedTime);
+    void attack(float elapsedTime, const std::vector<sf::Vector2f>& enemiesPositions);
 };
 
 #endif //KABAN_GAMES_HERO_H

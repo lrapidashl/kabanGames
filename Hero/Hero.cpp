@@ -2,7 +2,7 @@
 #include "Hero.h"
 
 Hero::Hero(const std::string &spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons)
-: DrawableEntity(spriteName, position)
+: HeroInterface(spriteName, position)
 {
     for (const std::shared_ptr<Weapon>& weapon : weapons)
     {
@@ -11,9 +11,15 @@ Hero::Hero(const std::string &spriteName, sf::Vector2f position, const std::vect
 }
 
 Hero::Hero(const std::string &spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon)
-: DrawableEntity(spriteName, position)
+: HeroInterface(spriteName, position)
 {
     weapons.push_back(weapon);
+}
+
+Hero::Hero(Hero *other)
+: HeroInterface(*other), speed(other->speed), directions(other->directions)
+{
+    weapons = other->weapons;
 }
 
 std::vector<std::shared_ptr<Weapon>> Hero::getWeapons() const
@@ -87,14 +93,18 @@ void Hero::move()
     }
 }
 
-void Hero::attack(float elapsedTime)
+void Hero::attack(float elapsedTime, const std::vector<sf::Vector2f>& enemiesPositions)
 {
     for (std::shared_ptr<Weapon>& weapon : weapons)
     {
         weapon->attack(elapsedTime);
         if (weapon->isAttack())
         {
-            weapon->move(getPosition(), getSize(), getScale());
+            weapon->move(elapsedTime, std::make_shared<Hero>(this), enemiesPositions);
+        }
+        else
+        {
+            weapon->setDefaultPosition();
         }
         weapon->update();
     }

@@ -578,7 +578,7 @@ private:
     mutable bool m_pixelsFlipped; ///< To work around the inconsistency in Y orientation
     bool         m_fboAttachment; ///< Is this texture owned by a framebuffer object?
     bool         m_hasMipmap;     ///< Has the mipmap been generated?
-    Uint64       m_cacheId;       ///< Unique number that identifies the texture to the render target's cache
+    Uint64       m_cacheId;       ///< shared number that identifies the texture to the render target's cache
 };
 
 } // namespace sf
@@ -621,7 +621,7 @@ private:
 /// store the collision information separately, for example in an array
 /// of booleans.
 ///
-/// Like sf::Image, sf::Texture can handle a unique internal
+/// Like sf::Image, sf::Texture can handle a shared internal
 /// representation of pixels, which is RGBA 32 bits. This means
 /// that a pixel must be composed of 8 bits red, green, blue and
 /// alpha channels -- just like a sf::Color.
