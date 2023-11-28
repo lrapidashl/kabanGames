@@ -2,7 +2,7 @@
 #define KABAN_GAMES_ENEMIES_H
 #include <vector>
 #include "Enemy.h"
-#include "../Common/Side.h"
+#include "Side.h"
 
 class Enemies
 {

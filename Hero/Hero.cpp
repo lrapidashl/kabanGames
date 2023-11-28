@@ -1,8 +1,24 @@
+#include <iostream>
 #include "Hero.h"
 
-Hero::Hero(const std::string &spriteName, sf::Vector2f position)
+Hero::Hero(const std::string &spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons)
 : DrawableEntity(spriteName, position)
 {
+    for (const std::shared_ptr<Weapon>& weapon : weapons)
+    {
+        this->weapons.push_back(weapon);
+    }
+}
+
+Hero::Hero(const std::string &spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon)
+: DrawableEntity(spriteName, position)
+{
+    weapons.push_back(weapon);
+}
+
+std::vector<std::shared_ptr<Weapon>> Hero::getWeapons() const
+{
+    return weapons;
 }
 
 float Hero::getSpeed() const
@@ -68,5 +84,18 @@ void Hero::move()
     else if (isDirectionInVector(directions, Direction::LEFT))
     {
         setScale({ -1, 1 });
+    }
+}
+
+void Hero::attack(float elapsedTime)
+{
+    for (std::shared_ptr<Weapon>& weapon : weapons)
+    {
+        weapon->attack(elapsedTime);
+        if (weapon->isAttack())
+        {
+            weapon->move(getPosition(), getSize(), getScale());
+        }
+        weapon->update();
     }
 }

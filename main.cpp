@@ -3,6 +3,7 @@
 #include "Hero/Hero.h"
 #include "Enemy/Enemies.h"
 #include "Common/GameConsts.h"
+#include "Weapon/Sword.h"
 
 void createWindow(sf::RenderWindow& window)
 {
@@ -69,6 +70,8 @@ void update(sf::Clock& clock, Hero& hero, Enemies& enemies)
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
+    hero.attack(elapsedTime);
+
     enemies.enemiesCollision(elapsedTime);
     enemies.move(elapsedTime, hero);
     enemies.update();
@@ -82,6 +85,13 @@ void render(sf::RenderWindow& window, const Hero& hero, Enemies& enemies)
     {
         window.draw(enemy);
     }
+    for (const std::shared_ptr<Weapon>& weapon : hero.getWeapons())
+    {
+        if (weapon->isAttack())
+        {
+            window.draw(*weapon);
+        }
+    }
     window.display();
 }
 
@@ -90,10 +100,12 @@ int main()
     sf::RenderWindow window;
     createWindow(window);
 
-    Hero knight(KNIGHT_PATH);
-    knight.setPosition({ (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 });
+    Sword sword(SWORD_PATH);
+
+    Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, std::make_shared<Sword>(sword));
+
     Enemies enemies;
-    enemies.add(BOAR_PATH, 100);
+    enemies.add(BOAR_PATH, 1);
 
     sf::Clock clock;
     while (window.isOpen())

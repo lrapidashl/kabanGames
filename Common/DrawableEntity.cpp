@@ -8,11 +8,11 @@ DrawableEntity::DrawableEntity(const std::string& spriteName, sf::Vector2f posit
 
     size = { (float)texture.getSize().x, (float)texture.getSize().y };
     scale = { 1, 1 };
-    sprite.setOrigin(size.x / 2, size.y / 2);
+    origin = { size.x / 2, size.y / 2 };
 }
 
 DrawableEntity::DrawableEntity(const DrawableEntity& other)
-: position(other.position), texture(other.texture), sprite(other.sprite), size(other.size), scale(other.scale)
+: position(other.position), texture(other.texture), sprite(other.sprite), size(other.size), scale(other.scale), origin(other.origin)
 {
     sprite.setTexture(texture);
 }
@@ -37,13 +37,29 @@ sf::Vector2f DrawableEntity::getSize() const
     return size;
 }
 
+sf::Vector2f DrawableEntity::getScale() const
+{
+    return scale;
+}
+
 void DrawableEntity::setScale(sf::Vector2f scale)
 {
     this->scale = scale;
+}
+
+sf::Vector2f DrawableEntity::getOrigin() const
+{
+    return origin;
+}
+
+void DrawableEntity::setOrigin(sf::Vector2f origin)
+{
+    this->origin = origin;
 }
 
 void DrawableEntity::update()
 {
     sprite.setPosition(position);
     sprite.setScale(scale);
+    sprite.setOrigin(origin);
 }

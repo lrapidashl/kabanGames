@@ -9,6 +9,7 @@ private:
     sf::Vector2f position;
     sf::Vector2f size;
     sf::Vector2f scale;
+    sf::Vector2f origin;
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -23,7 +24,13 @@ public:
 
     sf::Vector2f getSize() const;
 
+    sf::Vector2f getScale() const;
+
     void setScale(sf::Vector2f scale);
+
+    sf::Vector2f getOrigin() const;
+
+    void setOrigin(sf::Vector2f origin);
 
     void update();
 };

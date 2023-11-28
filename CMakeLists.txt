@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(kaban-games)
 
 include_directories(headers included/SFML)
+include_directories(headers Common)
+include_directories(headers Enemy)
+include_directories(headers Hero)
+include_directories(headers Hero/Weapon)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMakeModules")
@@ -19,8 +23,8 @@ add_executable(kabanGames main.cpp
         Enemy/Enemy.cpp
         Enemy/Enemy.h
         Common/Direction.h
-        Hero/Weapon.cpp
-        Hero/Weapon.h
+        Hero/Weapon/Weapon.cpp
+        Hero/Weapon/Weapon.h
         Common/Direction.cpp
         Enemy/Enemies.cpp
         Enemy/Enemies.h
@@ -30,7 +34,9 @@ add_executable(kabanGames main.cpp
         Common/Side.h
         Common/Side.cpp
         Common/DrawableEntity.cpp
-        Common/DrawableEntity.h)
+        Common/DrawableEntity.h
+        Hero/Weapon/Sword.cpp
+        Hero/Weapon/Sword.h)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)

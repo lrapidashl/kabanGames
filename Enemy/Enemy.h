@@ -1,8 +1,8 @@
 #ifndef KABAN_GAMES_ENEMY_H
 #define KABAN_GAMES_ENEMY_H
 #include "Graphics.hpp"
-#include "../Hero/Hero.h"
-#include "../Common/DrawableEntity.h"
+#include "Hero.h"
+#include "DrawableEntity.h"
 
 class Enemy : public DrawableEntity
 {

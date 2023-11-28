@@ -1,5 +1,5 @@
 #include "Enemies.h"
-#include "../Common/Random.h"
+#include "Random.h"
 
 Enemies::Enemies()
 = default;

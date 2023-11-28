@@ -1,20 +1,25 @@
 #ifndef KABAN_GAMES_HERO_H
 #define KABAN_GAMES_HERO_H
+
+#include <memory>
 #include "Graphics.hpp"
-#include "../Common/GameConsts.h"
-#include "../Common/Direction.h"
-#include "../Common/DrawableEntity.h"
+#include "GameConsts.h"
+#include "DrawableEntity.h"
+#include "Weapon.h"
 
 class Hero : public DrawableEntity
 {
 private:
-    float                  speed = 80;
-    std::vector<Direction> directions {};
+    std::vector<std::shared_ptr<Weapon>>    weapons {};
+    float                                   speed = 80;
+    std::vector<Direction>                  directions {};
 
 public:
-    Hero(const std::string& spriteName, sf::Vector2f position);
+    Hero(const std::string& spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons);
 
-    explicit Hero(const std::string& spriteName): Hero(spriteName, { WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f}) {};
+    Hero(const std::string& spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon);
+
+    std::vector<std::shared_ptr<Weapon>> getWeapons() const;
 
     float getSpeed() const;
 
@@ -37,6 +42,8 @@ public:
     void stopLeft();
 
     void move();
+
+    void attack(float elapsedTime);
 };
 
 #endif //KABAN_GAMES_HERO_H
