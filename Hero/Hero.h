@@ -11,7 +11,7 @@ class Hero : public HeroInterface
 {
 private:
     std::vector<std::shared_ptr<Weapon>> weapons {};
-    float                                speed = 80;
+    float                                speed = 100;
     std::vector<Direction>               directions {};
 
 public:

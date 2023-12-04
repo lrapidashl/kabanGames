@@ -5,6 +5,7 @@
 #include "Common/GameConsts.h"
 #include "Weapon/Sword.h"
 #include "Bow.h"
+#include "Environments/Background.h"
 
 void createWindow(sf::RenderWindow& window)
 {
@@ -66,21 +67,25 @@ void handleEvents(sf::RenderWindow& window, Hero& hero)
     }
 }
 
-void update(sf::Clock& clock, Hero& hero, Enemies& enemies)
+void update(sf::Clock& clock, Background& background, Hero& hero, Enemies& enemies)
 {
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
     hero.attack(elapsedTime, enemies.getEnemiesPositions());
 
+    background.move(elapsedTime, std::make_shared<Hero>(hero));
+    background.update();
+
     enemies.enemiesCollision(elapsedTime);
     enemies.move(elapsedTime, hero);
     enemies.update();
 }
 
-void render(sf::RenderWindow& window, const Hero& hero, Enemies& enemies)
+void render(sf::RenderWindow& window, Background& background, const Hero& hero, Enemies& enemies)
 {
     window.clear(sf::Color(0xFF, 0xF2, 0xCC));
+    window.draw(background);
     window.draw(hero);
     for (Enemy& enemy : enemies.getEnemies())
     {
@@ -101,6 +106,8 @@ int main()
     sf::RenderWindow window;
     createWindow(window);
 
+    Background background(BACKGROUND_PATH);
+
     Sword sword(SWORD_PATH);
     Bow bow(SWORD_PATH);
 
@@ -113,7 +120,7 @@ int main()
     while (window.isOpen())
     {
         handleEvents(window, knight);
-        update(clock, knight, enemies);
-        render(window, knight, enemies);
+        update(clock, background, knight, enemies);
+        render(window, background, knight, enemies);
     }
 }

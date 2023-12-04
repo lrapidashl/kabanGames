@@ -4,7 +4,8 @@
 #include "Enemy.h"
 
 Enemy::Enemy(const std::string &spriteName, sf::Vector2f position)
-: DrawableEntity(spriteName, position) {
+: DrawableEntity(spriteName, position)
+{
 }
 
 Enemy::Enemy(const Enemy& other)

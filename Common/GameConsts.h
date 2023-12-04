@@ -12,5 +12,6 @@ const int RENDER_SPREAD_MULTIPLY = 5;
 const std::string KNIGHT_PATH = "../images/heroes/knight.png";
 const std::string BOAR_PATH = "../images/enemies/boar.png";
 const std::string SWORD_PATH = "../images/weapons/sword.png";
+const std::string BACKGROUND_PATH = "../images/environments/background.png";
 
 #endif //KABAN_GAMES_GAMECONSTS_H

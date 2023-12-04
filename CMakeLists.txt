@@ -40,7 +40,9 @@ add_executable(kabanGames main.cpp
         Hero/Weapon/Bow.cpp
         Hero/Weapon/Bow.h
         Hero/HeroInterface.cpp
-        Hero/HeroInterface.h)
+        Hero/HeroInterface.h
+        Environments/Background.cpp
+        Environments/Background.h)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)
