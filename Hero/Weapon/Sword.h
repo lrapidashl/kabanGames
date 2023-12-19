@@ -6,15 +6,15 @@
 class Sword : public Weapon
 {
 public:
-    Sword(const std::string& spriteName, sf::Vector2f position);
+    Sword(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position);
 
-    explicit Sword(const std::string& spriteName): Sword(spriteName, { 100, 100 }) {};
+    explicit Sword(const std::string& spriteName, const std::string& ammoSpriteName): Sword(spriteName, ammoSpriteName, { 100, 100 }) {};
 
     Sword(const Sword& sword);
 
-    void setDefaultPosition() override;
+    void setDefaultPosition(const std::shared_ptr<EnemiesInterface>& enemies) override;
 
-    void move(float elapsedTime, std::shared_ptr<HeroInterface> hero, const std::vector<sf::Vector2f>& enemiesPositions) override;
+    void move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero) override;
 };
 
 #endif //KABAN_GAMES_SWORD_H

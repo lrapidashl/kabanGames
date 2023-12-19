@@ -4,8 +4,9 @@
 #include <memory>
 #include "Graphics.hpp"
 #include "GameConsts.h"
-#include "Weapon.h"
 #include "HeroInterface.h"
+#include "EnemiesInterface.h"
+#include "Weapon.h"
 
 class Hero : public HeroInterface
 {
@@ -13,6 +14,8 @@ private:
     std::vector<std::shared_ptr<Weapon>> weapons {};
     float                                speed = 100;
     std::vector<Direction>               directions {};
+
+    void setWeaponIconsPositions();
 
 public:
     Hero(const std::string& spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons);
@@ -45,7 +48,7 @@ public:
 
     void move();
 
-    void attack(float elapsedTime, const std::vector<sf::Vector2f>& enemiesPositions);
+    void attack(float elapsedTime, const std::shared_ptr<EnemiesInterface>& enemies);
 };
 
 #endif //KABAN_GAMES_HERO_H

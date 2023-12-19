@@ -4,22 +4,25 @@
 #include <memory>
 #include "DrawableEntity.h"
 #include "HeroInterface.h"
+#include "EnemiesInterface.h"
 
-class Weapon: public DrawableEntity
+class Weapon : public DrawableEntity
 {
 protected:
-    float damage = 60;
-    float size{};
-    float duration = 2;
-    float delay = 5;
-    float speed = 200;
-    float count = 1;
-    float time = 0;
+    std::vector<DrawableEntity> ammo;
+    float                       damage;
+    float                       sizeScale = 1;
+    float                       duration;
+    float                       delay;
+    float                       ammoDelay = 0.1;
+    float                       speed;
+    float                       count = 1;
+    float                       time = 0;
+
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
-    Weapon(const std::string& spriteName, sf::Vector2f position);
-
-    explicit Weapon(const std::string& spriteName): Weapon(spriteName, {100, 100}){};
+    Weapon(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position, float damage, float duration, float delay, float speed, float count);
 
     Weapon(const Weapon &other);
 
@@ -27,9 +30,9 @@ public:
 
     void attack(float elapsedTime);
 
-    virtual void setDefaultPosition() = 0;
+    virtual void setDefaultPosition(const std::shared_ptr<EnemiesInterface>& enemies) = 0;
 
-    virtual void move(float elapsedTime, std::shared_ptr<HeroInterface> hero, const std::vector<sf::Vector2f>& enemiesPositions) = 0;
+    virtual void move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero) = 0;
 };
 
 #endif //KABAN_GAMES_WEAPON_H

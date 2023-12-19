@@ -1,7 +1,9 @@
 #ifndef KABAN_GAMES_ENEMY_H
 #define KABAN_GAMES_ENEMY_H
+
+#include <memory>
 #include "Graphics.hpp"
-#include "Hero.h"
+#include "HeroInterface.h"
 #include "DrawableEntity.h"
 
 class Enemy : public DrawableEntity
@@ -11,9 +13,9 @@ private:
 
     static float getVectorLength(sf::Vector2f vector);
 
-    void moveByHeroDirection(float elapsedTime, const Hero& hero);
+    void moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 
-    void moveToHero(float elapsedTime, const Hero& hero);
+    void moveToHero(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 public:
     Enemy(const std::string& spriteName, sf::Vector2f position);
 
@@ -23,7 +25,7 @@ public:
 
     float getSpeed() const;
 
-    void move(float elapsedTime, const Hero& hero);
+    void move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 };
 
 #endif //KABAN_GAMES_ENEMY_H

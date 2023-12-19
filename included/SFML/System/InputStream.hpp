@@ -137,7 +137,7 @@ public:
 /// // now you can load textures...
 /// sf::Texture texture;
 /// ZipStream stream("resources.zip");
-/// stream.open("images/img.png");
+/// stream.open("images/bow.png");
 /// texture.loadFromStream(stream);
 ///
 /// // musics...

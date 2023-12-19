@@ -3,23 +3,24 @@
 #include <vector>
 #include "Enemy.h"
 #include "Side.h"
+#include "EnemiesInterface.h"
 
-class Enemies
+class Enemies : public EnemiesInterface
 {
 private:
     std::vector<Enemy> enemies;
 public:
     Enemies();
 
+    explicit Enemies(Enemies* other);
+
     void add(const std::string& spriteName, int enemiesCount, Side side = Side::RIGHT);
 
-    std::vector<Enemy> getEnemies();
-
-    std::vector<sf::Vector2f> getEnemiesPositions();
+    std::vector<Enemy> getEnemies() const override;
 
     void enemiesCollision(float elapsedTime);
 
-    void move(float elapsedTime, const Hero& hero);
+    void move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 
     void update();
 };

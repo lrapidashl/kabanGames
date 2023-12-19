@@ -17,7 +17,7 @@ float Enemy::getSpeed() const {
     return speed;
 }
 
-void Enemy::move(float elapsedTime, const Hero &hero)
+void Enemy::move(float elapsedTime, const std::shared_ptr<HeroInterface> &hero)
 {
     moveToHero(elapsedTime, hero);
     moveByHeroDirection(elapsedTime, hero);
@@ -28,17 +28,17 @@ float Enemy::getVectorLength(sf::Vector2f vector)
     return (float)std::sqrt(std::pow(vector.x, 2) + std::pow(vector.y, 2));
 }
 
-void Enemy::moveToHero(float elapsedTime, const Hero& hero)
+void Enemy::moveToHero(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
 {
     sf::Vector2f position = getPosition();
-    const sf::Vector2f deltaPosition = hero.getPosition() - position;
+    const sf::Vector2f deltaPosition = hero->getPosition() - position;
     const auto deltaPositionLength = getVectorLength(deltaPosition);
 
-    if (position.x > hero.getPosition().x)
+    if (position.x > hero->getPosition().x)
     {
         setScale({ -1, 1 });
     }
-    else if (position.x < hero.getPosition().x)
+    else if (position.x < hero->getPosition().x)
     {
         setScale({ 1, 1 });
     }
@@ -54,24 +54,24 @@ void Enemy::moveToHero(float elapsedTime, const Hero& hero)
     setPosition(position);
 }
 
-void Enemy::moveByHeroDirection(float elapsedTime, const Hero &hero)
+void Enemy::moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInterface> &hero)
 {
     sf::Vector2f position = getPosition();
-    if (isDirectionInVector(hero.getDirections(), Direction::UP))
+    if (isDirectionInVector(hero->getDirections(), Direction::UP))
     {
-        position += elapsedTime * sf::Vector2f(0, hero.getSpeed());
+        position += elapsedTime * sf::Vector2f(0, hero->getSpeed());
     }
-    if (isDirectionInVector(hero.getDirections(), Direction::DOWN))
+    if (isDirectionInVector(hero->getDirections(), Direction::DOWN))
     {
-        position -= elapsedTime * sf::Vector2f(0, hero.getSpeed());
+        position -= elapsedTime * sf::Vector2f(0, hero->getSpeed());
     }
-    if (isDirectionInVector(hero.getDirections(), Direction::RIGHT))
+    if (isDirectionInVector(hero->getDirections(), Direction::RIGHT))
     {
-        position -= elapsedTime * sf::Vector2f(hero.getSpeed(), 0);
+        position -= elapsedTime * sf::Vector2f(hero->getSpeed(), 0);
     }
-    if (isDirectionInVector(hero.getDirections(), Direction::LEFT))
+    if (isDirectionInVector(hero->getDirections(), Direction::LEFT))
     {
-        position += elapsedTime * sf::Vector2f(hero.getSpeed(), 0);
+        position += elapsedTime * sf::Vector2f(hero->getSpeed(), 0);
     }
     setPosition(position);
 }

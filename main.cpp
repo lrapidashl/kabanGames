@@ -72,13 +72,13 @@ void update(sf::Clock& clock, Background& background, Hero& hero, Enemies& enemi
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
-    hero.attack(elapsedTime, enemies.getEnemiesPositions());
+    hero.attack(elapsedTime, std::make_shared<Enemies>(enemies));
 
     background.move(elapsedTime, std::make_shared<Hero>(hero));
     background.update();
 
     enemies.enemiesCollision(elapsedTime);
-    enemies.move(elapsedTime, hero);
+    enemies.move(elapsedTime, std::make_shared<Hero>(hero));
     enemies.update();
 }
 
@@ -93,10 +93,7 @@ void render(sf::RenderWindow& window, Background& background, const Hero& hero, 
     }
     for (const std::shared_ptr<Weapon>& weapon : hero.getWeapons())
     {
-        if (weapon->isAttack())
-        {
-            window.draw(*weapon);
-        }
+        window.draw(*weapon);
     }
     window.display();
 }
@@ -108,13 +105,13 @@ int main()
 
     Background background(BACKGROUND_PATH);
 
-    Sword sword(SWORD_PATH);
-    Bow bow(SWORD_PATH);
+    Sword sword(SWORD_PATH, SWORD_PATH);
+    Bow bow(BOW_PATH, BOW_PATH);
 
     Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, {std::make_shared<Sword>(sword), std::make_shared<Bow>(bow)});
 
     Enemies enemies;
-    enemies.add(BOAR_PATH, 50);
+    enemies.add(BOAR_PATH, 100);
 
     sf::Clock clock;
     while (window.isOpen())

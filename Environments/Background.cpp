@@ -9,6 +9,7 @@ Background::Background(const std::string& spriteName)
         for (int j = -2; j < 3; j++)
         {
             DrawableEntity tile(spriteName, { 0, 0 });
+            tile.setSize({WINDOW_WIDTH, WINDOW_HEIGHT});
             tile.setPosition({ (float)WINDOW_WIDTH / 2 + tile.getSize().x * (float)i, (float)WINDOW_HEIGHT / 2 + tile.getSize().y * (float)j });
             tiles.push_back(tile);
         }

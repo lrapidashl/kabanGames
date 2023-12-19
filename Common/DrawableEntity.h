@@ -5,13 +5,15 @@
 class DrawableEntity: public sf::Drawable {
 private:
     sf::Texture  texture;
-    sf::Sprite   sprite;
     sf::Vector2f position;
     sf::Vector2f size;
     sf::Vector2f scale;
     sf::Vector2f origin;
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+protected:
+    sf::Sprite   sprite;
 
 public:
     DrawableEntity(const std::string& spriteName, sf::Vector2f position);
@@ -23,6 +25,8 @@ public:
     void setPosition(sf::Vector2f position);
 
     sf::Vector2f getSize() const;
+
+    void setSize(sf::Vector2f size);
 
     sf::Vector2f getScale() const;
 

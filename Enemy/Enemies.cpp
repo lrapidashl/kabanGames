@@ -1,8 +1,14 @@
+#include <iostream>
+#include "GameConsts.h"
 #include "Enemies.h"
 #include "Random.h"
 
 Enemies::Enemies()
-= default;
+: EnemiesInterface() {}
+
+Enemies::Enemies(Enemies* other)
+: EnemiesInterface(*other), enemies(other->enemies)
+{}
 
 void Enemies::add(const std::string &spriteName, int enemiesCount, Side side) {
     for (int i = 0; i < enemiesCount; i++)
@@ -35,18 +41,7 @@ void Enemies::add(const std::string &spriteName, int enemiesCount, Side side) {
     }
 }
 
-std::vector<sf::Vector2f> Enemies::getEnemiesPositions()
-{
-    std::vector<sf::Vector2f> enemiesPositions;
-    for (const Enemy& enemy : enemies)
-    {
-        enemiesPositions.push_back(enemy.getPosition());
-    }
-    return enemiesPositions;
-}
-
-
-std::vector<Enemy> Enemies::getEnemies()
+std::vector<Enemy> Enemies::getEnemies() const
 {
     return enemies;
 }
@@ -97,7 +92,7 @@ void Enemies::enemiesCollision(float elapsedTime) {
     }
 }
 
-void Enemies::move(float elapsedTime, const Hero& hero)
+void Enemies::move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
 {
     for (Enemy& enemy : enemies)
     {

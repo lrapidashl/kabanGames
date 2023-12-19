@@ -5,6 +5,7 @@ DrawableEntity::DrawableEntity(const std::string& spriteName, sf::Vector2f posit
 {
     texture.loadFromFile(spriteName);
     sprite.setTexture(texture);
+    texture.setSmooth(true);
 
     size = { (float)texture.getSize().x, (float)texture.getSize().y };
     scale = { 1, 1 };
@@ -35,6 +36,11 @@ void DrawableEntity::setPosition(sf::Vector2f position)
 sf::Vector2f DrawableEntity::getSize() const
 {
     return size;
+}
+
+void DrawableEntity::setSize(sf::Vector2f size)
+{
+    this->size = size;
 }
 
 sf::Vector2f DrawableEntity::getScale() const

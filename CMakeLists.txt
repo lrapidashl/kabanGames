@@ -42,7 +42,9 @@ add_executable(kabanGames main.cpp
         Hero/HeroInterface.cpp
         Hero/HeroInterface.h
         Environments/Background.cpp
-        Environments/Background.h)
+        Environments/Background.h
+        Enemy/EnemiesInterface.cpp
+        Enemy/EnemiesInterface.h)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)

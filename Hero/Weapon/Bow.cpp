@@ -1,9 +1,11 @@
 #include <unordered_map>
 #include <cmath>
+#include <iostream>
 #include "Bow.h"
+#include "GameConsts.h"
 
-Bow::Bow(const std::string& spriteName, sf::Vector2f position)
-: Weapon(spriteName, position)
+Bow::Bow(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position)
+: Weapon(spriteName, ammoSpriteName, position, 60, 5, 1, 200, 5)
 {
 }
 
@@ -12,34 +14,42 @@ Bow::Bow(const Bow &other)
 {
 }
 
-void Bow::setDefaultPosition()
+void Bow::setDefaultPosition(const std::shared_ptr<EnemiesInterface>& enemies)
 {
-    setPosition({ (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 });
-}
-
-void Bow::move(float elapsedTime, std::shared_ptr<HeroInterface> hero, const std::vector<sf::Vector2f>& enemiesPositions)
-{
-    std::vector<sf::Vector2f> nearestEnemiesPositions = getNearestEnemiesPositions(hero->getPosition(), enemiesPositions);
-    for (const sf::Vector2f& enemyPosition : nearestEnemiesPositions)
+    for (int i = 0; i < (int)count; i++)
     {
-        const sf::Vector2f deltaPosition = enemyPosition - getPosition();
-        const auto deltaPositionLength = getVectorLength(deltaPosition);
-
-        sf::Vector2f direction = { 0, 0 };
-        if (deltaPositionLength != 0)
-        {
-            direction = {deltaPosition.x / deltaPositionLength, deltaPosition.y / deltaPositionLength};
-        }
-        const sf::Vector2f positionOffset = direction * speed * elapsedTime;
-
-        setPosition(getPosition() + positionOffset);
+        ammo[i].setPosition(WINDOW_CENTER);
     }
-    moveByHeroDirection(elapsedTime, hero);
+    getNearestEnemiesPositions(WINDOW_CENTER, enemies);
 }
 
-void Bow::moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
+void Bow::move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
 {
-    sf::Vector2f position = getPosition();
+    for (int i = 0; i < (int)count; i++)
+    {
+        if (time >= delay + ammoDelay * (float)i
+        && time <= delay + ammoDelay * (float)i + duration)
+        {
+            const sf::Vector2f deltaPosition = nearestEnemies[i]->getPosition() - ammo[i].getPosition();
+            const auto deltaPositionLength = getVectorLength(deltaPosition);
+
+            sf::Vector2f direction = {0, 0};
+            if (deltaPositionLength != 0)
+            {
+                direction = {deltaPosition.x / deltaPositionLength, deltaPosition.y / deltaPositionLength};
+            }
+            const sf::Vector2f positionOffset = direction * speed * elapsedTime;
+
+            ammo[i].setPosition(ammo[i].getPosition() + positionOffset);
+            moveByHeroDirection(elapsedTime, ammo[i], hero);
+        }
+        nearestEnemies[i]->move(elapsedTime, hero);
+    }
+}
+
+void Bow::moveByHeroDirection(float elapsedTime, DrawableEntity& entity, const std::shared_ptr<HeroInterface>& hero)
+{
+    sf::Vector2f position = entity.getPosition();
     if (isDirectionInVector(hero->getDirections(), Direction::UP))
     {
         position += elapsedTime * sf::Vector2f(0, hero->getSpeed());
@@ -56,7 +66,7 @@ void Bow::moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInter
     {
         position += elapsedTime * sf::Vector2f(hero->getSpeed(), 0);
     }
-    setPosition(position);
+    entity.setPosition(position);
 }
 
 float Bow::getVectorLength(sf::Vector2f vector)
@@ -64,22 +74,23 @@ float Bow::getVectorLength(sf::Vector2f vector)
     return (float)std::sqrt(std::pow(vector.x, 2) + std::pow(vector.y, 2));
 }
 
-std::vector<sf::Vector2f> Bow::getNearestEnemiesPositions(const sf::Vector2f& position, const std::vector<sf::Vector2f>& enemiesPositions) {
-    std::unordered_map<float, sf::Vector2f> enemiesDistToPosMap;
+void Bow::getNearestEnemiesPositions(const sf::Vector2f& position, const std::shared_ptr<EnemiesInterface>& enemies)
+{
+    std::unordered_map<float, std::shared_ptr<Enemy>> enemiesDistToPosMap;
     std::vector<float> enemiesDistances;
-    for (const sf::Vector2f& enemyPosition : enemiesPositions)
+    for (const Enemy& enemy : enemies->getEnemies())
     {
-        const sf::Vector2f deltaPosition = position - enemyPosition;
+        const sf::Vector2f deltaPosition = position - enemy.getPosition();
         const auto deltaPositionLength = getVectorLength(deltaPosition);
         enemiesDistances.push_back(deltaPositionLength);
-        enemiesDistToPosMap[deltaPositionLength] = enemyPosition;
+        enemiesDistToPosMap[deltaPositionLength] = std::make_shared<Enemy>(enemy);
     }
     std::sort(enemiesDistances.begin(), enemiesDistances.end());
-    std::vector<sf::Vector2f> nearestEnemiesPositions;
-    nearestEnemiesPositions.reserve((int)count);
-    for (int i = 0; i < (int)count; i++)
+    nearestEnemies.clear();
+    int nearestCount = (int)MAX_AMMO_COUNT >= (int)enemies->getEnemies().size() ? (int)MAX_AMMO_COUNT : (int)enemies->getEnemies().size();
+    nearestEnemies.reserve(nearestCount);
+    for (int i = 0; i < nearestCount; i++)
     {
-        nearestEnemiesPositions.push_back(enemiesDistToPosMap[enemiesDistances[i]]);
+        nearestEnemies.push_back(enemiesDistToPosMap[enemiesDistances[i]]);
     }
-    return nearestEnemiesPositions;
 }
