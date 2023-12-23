@@ -41,6 +41,7 @@ void Bow::move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
             const sf::Vector2f positionOffset = direction * speed * elapsedTime;
 
             ammo[i].setPosition(ammo[i].getPosition() + positionOffset);
+            rotate(ammo[i], direction);
             moveByHeroDirection(elapsedTime, ammo[i], hero);
         }
         nearestEnemies[i]->move(elapsedTime, hero);
@@ -72,6 +73,18 @@ void Bow::moveByHeroDirection(float elapsedTime, DrawableEntity& entity, const s
 float Bow::getVectorLength(sf::Vector2f vector)
 {
     return (float)std::sqrt(std::pow(vector.x, 2) + std::pow(vector.y, 2));
+}
+
+float Bow::toDegrees(double radians)
+{
+    return float(double(radians) * 180.0 / M_PI);
+}
+
+void Bow::rotate(DrawableEntity& entity, sf::Vector2f direction)
+{
+    const double angle = atan2(double(direction.y), double(direction.x));
+    float newRotation = toDegrees(angle);
+    entity.setRotation(newRotation);
 }
 
 void Bow::getNearestEnemiesPositions(const sf::Vector2f& position, const std::shared_ptr<EnemiesInterface>& enemies)

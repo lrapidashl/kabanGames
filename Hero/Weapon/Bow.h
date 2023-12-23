@@ -15,6 +15,10 @@ private:
 
     static float getVectorLength(sf::Vector2f vector);
 
+    static float toDegrees(double radians);
+
+    static void rotate(DrawableEntity& entity, sf::Vector2f direction) ;
+
     void getNearestEnemiesPositions(const sf::Vector2f& position, const std::shared_ptr<EnemiesInterface>& enemies);
 
 public:

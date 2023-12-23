@@ -13,7 +13,7 @@ DrawableEntity::DrawableEntity(const std::string& spriteName, sf::Vector2f posit
 }
 
 DrawableEntity::DrawableEntity(const DrawableEntity& other)
-: position(other.position), texture(other.texture), sprite(other.sprite), size(other.size), scale(other.scale), origin(other.origin)
+: position(other.position), texture(other.texture), sprite(other.sprite), size(other.size), scale(other.scale), origin(other.origin), rotation(other.rotation)
 {
     sprite.setTexture(texture);
 }
@@ -31,6 +31,16 @@ sf::Vector2f DrawableEntity::getPosition() const
 void DrawableEntity::setPosition(sf::Vector2f position)
 {
     this->position = position;
+}
+
+float DrawableEntity::getRotation() const
+{
+    return rotation;
+}
+
+void DrawableEntity::setRotation(float rotation)
+{
+    this->rotation = rotation;
 }
 
 sf::Vector2f DrawableEntity::getSize() const
@@ -66,6 +76,7 @@ void DrawableEntity::setOrigin(sf::Vector2f origin)
 void DrawableEntity::update()
 {
     sprite.setPosition(position);
+    sprite.setRotation(rotation);
     sprite.setScale(scale);
     sprite.setOrigin(origin);
 }

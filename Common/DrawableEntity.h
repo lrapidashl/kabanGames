@@ -9,6 +9,7 @@ private:
     sf::Vector2f size;
     sf::Vector2f scale;
     sf::Vector2f origin;
+    float        rotation = 0;
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
@@ -23,6 +24,10 @@ public:
     sf::Vector2f getPosition() const;
 
     void setPosition(sf::Vector2f position);
+
+    float getRotation() const;
+
+    void setRotation(float rotation);
 
     sf::Vector2f getSize() const;
 
