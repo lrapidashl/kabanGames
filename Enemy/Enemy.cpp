@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 #include "Enemy.h"
+#include "GameConsts.h"
+#include "Random.h"
 
 Enemy::Enemy(const std::string &spriteName, sf::Vector2f position)
 : DrawableEntity(spriteName, position)
@@ -9,12 +11,67 @@ Enemy::Enemy(const std::string &spriteName, sf::Vector2f position)
 }
 
 Enemy::Enemy(const Enemy& other)
-: DrawableEntity(other)
+: DrawableEntity(other), hp(other.hp), maxHp(other.maxHp), speed(other.speed), isHit(other.isHit), damage(other.damage)
 {
 }
 
-float Enemy::getSpeed() const {
+float Enemy::getSpeed() const
+{
     return speed;
+}
+
+float Enemy::getMaxHp() const
+{
+    return maxHp;
+}
+
+float Enemy::getHp() const
+{
+    return hp;
+}
+
+void Enemy::setHp(float hp)
+{
+    this->hp = hp;
+}
+
+bool Enemy::getIsHit() const
+{
+    return isHit;
+}
+
+void Enemy::setIsHit(bool isHit)
+{
+    this->isHit = isHit;
+}
+
+void Enemy::respawn(Side side)
+{
+    int sideNumber = (int)(getSideNumber(side) % SIDES_COUNT);
+    if (sideNumber == getSideNumber(Side::RIGHT))
+    {
+        setPosition({
+                Random::random((float)(-RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY), (float)(-RENDER_DISTANCE)),
+                Random::random((float)(-RENDER_DISTANCE), (float)(WINDOW_HEIGHT + RENDER_DISTANCE)) });
+    }
+    if (sideNumber == getSideNumber(Side::TOP))
+    {
+        setPosition({
+                Random::random((float)(-RENDER_DISTANCE), (float)(WINDOW_WIDTH + RENDER_DISTANCE)),
+                Random::random((float)(-RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY), (float)(-RENDER_DISTANCE)) });
+    }
+    if (sideNumber == getSideNumber(Side::LEFT))
+    {
+        setPosition({
+                Random::random((float)(WINDOW_WIDTH + RENDER_DISTANCE), (float)(WINDOW_WIDTH + RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)),
+                Random::random((float)(-RENDER_DISTANCE), (float)(WINDOW_HEIGHT + RENDER_DISTANCE)) });
+    }
+    if (sideNumber == getSideNumber(Side::BOTTOM))
+    {
+        setPosition({
+                Random::random((float)(-RENDER_DISTANCE), (float)(WINDOW_WIDTH + RENDER_DISTANCE)),
+                Random::random((float)(WINDOW_HEIGHT + RENDER_DISTANCE), (float)(WINDOW_HEIGHT + RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)) });
+    }
 }
 
 void Enemy::move(float elapsedTime, const std::shared_ptr<HeroInterface> &hero)

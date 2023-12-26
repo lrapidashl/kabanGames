@@ -21,6 +21,8 @@ private:
 
     void getNearestEnemiesPositions(const sf::Vector2f& position, const std::shared_ptr<EnemiesInterface>& enemies);
 
+    void enemyCollision(DrawableEntity& bullet) override;
+
 public:
     Bow(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position);
 

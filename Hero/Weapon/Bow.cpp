@@ -5,7 +5,7 @@
 #include "GameConsts.h"
 
 Bow::Bow(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position)
-: Weapon(spriteName, ammoSpriteName, position, 60, 5, 1, 200, 5)
+: Weapon(spriteName, ammoSpriteName, position, 20, 5, 1, 200, 1)
 {
 }
 
@@ -30,7 +30,7 @@ void Bow::move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
         if (time >= delay + ammoDelay * (float)i
         && time <= delay + ammoDelay * (float)i + duration)
         {
-            const sf::Vector2f deltaPosition = nearestEnemies[i]->getPosition() - ammo[i].getPosition();
+            const sf::Vector2f deltaPosition = nearestEnemies[i]->getPosition() - hero->getPosition();
             const auto deltaPositionLength = getVectorLength(deltaPosition);
 
             sf::Vector2f direction = {0, 0};
@@ -44,7 +44,6 @@ void Bow::move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero)
             rotate(ammo[i], direction);
             moveByHeroDirection(elapsedTime, ammo[i], hero);
         }
-        nearestEnemies[i]->move(elapsedTime, hero);
     }
 }
 
@@ -106,4 +105,9 @@ void Bow::getNearestEnemiesPositions(const sf::Vector2f& position, const std::sh
     {
         nearestEnemies.push_back(enemiesDistToPosMap[enemiesDistances[i]]);
     }
+}
+
+void Bow::enemyCollision(DrawableEntity& bullet)
+{
+    bullet.setPosition({-1000000, -1000000});
 }

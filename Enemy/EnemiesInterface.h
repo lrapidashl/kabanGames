@@ -11,6 +11,8 @@ public:
     EnemiesInterface(const EnemiesInterface& other);
 
     virtual std::vector<Enemy> getEnemies() const = 0;
+
+    virtual void setEnemies(const std::vector<Enemy>& enemies) = 0;
 };
 
 

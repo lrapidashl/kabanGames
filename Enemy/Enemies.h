@@ -2,7 +2,6 @@
 #define KABAN_GAMES_ENEMIES_H
 #include <vector>
 #include "Enemy.h"
-#include "Side.h"
 #include "EnemiesInterface.h"
 
 class Enemies : public EnemiesInterface
@@ -17,6 +16,8 @@ public:
     void add(const std::string& spriteName, int enemiesCount, Side side = Side::RIGHT);
 
     std::vector<Enemy> getEnemies() const override;
+
+    void setEnemies(const std::vector<Enemy>& enemies) override;
 
     void enemiesCollision(float elapsedTime);
 

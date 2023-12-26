@@ -5,6 +5,8 @@
 
 class Sword : public Weapon
 {
+private:
+    void enemyCollision(DrawableEntity& bullet) override;
 public:
     Sword(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position);
 

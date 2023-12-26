@@ -102,10 +102,17 @@ void Hero::attack(float elapsedTime, const std::shared_ptr<EnemiesInterface>& en
         if (weapon->isAttack())
         {
             weapon->move(elapsedTime, std::make_shared<Hero>(this));
+            weapon->enemiesCollision(enemies);
         }
         else
         {
             weapon->setDefaultPosition(enemies);
+            std::vector<Enemy> newEnemies = enemies->getEnemies();
+            for (Enemy& enemy : newEnemies)
+            {
+                enemy.setIsHit(false);
+            }
+            enemies->setEnemies(newEnemies);
         }
         weapon->update();
     }

@@ -46,6 +46,12 @@ std::vector<Enemy> Enemies::getEnemies() const
     return enemies;
 }
 
+void Enemies::setEnemies(const std::vector<Enemy> &enemies)
+{
+    this->enemies.clear();
+    copy(enemies.begin(), enemies.end(), back_inserter(this->enemies));
+}
+
 void Enemies::enemiesCollision(float elapsedTime) {
     for (int i = 0; i < enemies.size(); i++)
     {

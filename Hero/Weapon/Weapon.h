@@ -21,6 +21,8 @@ protected:
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
+    virtual void enemyCollision(DrawableEntity& bullet) = 0;
+
 public:
     Weapon(const std::string& spriteName, const std::string& ammoSpriteName, sf::Vector2f position, float damage, float duration, float delay, float speed, float count);
 
@@ -29,6 +31,8 @@ public:
     bool isAttack() const;
 
     void attack(float elapsedTime);
+
+    void enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies);
 
     virtual void setDefaultPosition(const std::shared_ptr<EnemiesInterface>& enemies) = 0;
 

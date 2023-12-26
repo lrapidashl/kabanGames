@@ -13,4 +13,6 @@ enum struct Side
 
 int getSideNumber(Side side);
 
+Side getRandomSide();
+
 #endif //KABAN_GAMES_SIDE_H

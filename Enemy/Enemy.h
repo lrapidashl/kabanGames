@@ -5,11 +5,20 @@
 #include "Graphics.hpp"
 #include "HeroInterface.h"
 #include "DrawableEntity.h"
+#include "Side.h"
 
 class Enemy : public DrawableEntity
 {
 private:
     float speed = 50;
+
+    float maxHp = 60;
+
+    float hp = 60;
+
+    bool isHit = false;
+
+    float damage = 2;
 
     static float getVectorLength(sf::Vector2f vector);
 
@@ -24,6 +33,18 @@ public:
     Enemy(const Enemy& other);
 
     float getSpeed() const;
+
+    float getMaxHp() const;
+
+    float getHp() const;
+
+    void setHp(float hp);
+
+    bool getIsHit() const;
+
+    void setIsHit(bool isHit);
+
+    void respawn(Side side);
 
     void move(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 };

@@ -1,4 +1,5 @@
 #include <Graphics.hpp>
+#include <iostream>
 #include "Common/Random.h"
 #include "Hero/Hero.h"
 #include "Enemy/Enemies.h"
@@ -72,7 +73,10 @@ void update(sf::Clock& clock, Background& background, Hero& hero, Enemies& enemi
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
-    hero.attack(elapsedTime, std::make_shared<Enemies>(enemies));
+
+    std::shared_ptr<Enemies> enemiesPtr = std::make_shared<Enemies>(enemies);
+    hero.attack(elapsedTime, enemiesPtr);
+    enemies.setEnemies(enemiesPtr->getEnemies());
 
     background.move(elapsedTime, std::make_shared<Hero>(hero));
     background.update();
@@ -111,7 +115,7 @@ int main()
     Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, {std::make_shared<Sword>(sword), std::make_shared<Bow>(bow)});
 
     Enemies enemies;
-    enemies.add(BOAR_PATH, 100);
+    enemies.add(BOAR_PATH, 30);
 
     sf::Clock clock;
     while (window.isOpen())
