@@ -4,6 +4,7 @@ project(kaban-games)
 
 include_directories(headers included/SFML)
 include_directories(headers Common)
+include_directories(headers Environments)
 include_directories(headers Enemy)
 include_directories(headers Hero)
 include_directories(headers Hero/Weapon)
@@ -44,7 +45,10 @@ add_executable(kabanGames main.cpp
         Environments/Background.cpp
         Environments/Background.h
         Enemy/EnemiesInterface.cpp
-        Enemy/EnemiesInterface.h)
+        Enemy/EnemiesInterface.h
+        Environments/Experience.cpp
+        Environments/Experience.h
+)
 
 target_include_directories(kabanGames PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(kabanGames PUBLIC cxx_std_17)

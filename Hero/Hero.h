@@ -11,16 +11,29 @@
 class Hero : public HeroInterface
 {
 private:
+    const float HP_BAR_HEIGHT = 5;
+    const float EXP_BAR_HEIGHT = 10;
+
     std::vector<std::shared_ptr<Weapon>> weapons {};
     float                                speed = 100;
     std::vector<Direction>               directions {};
+    float                                maxHp = 100;
+    float                                hp = 100;
+    float                                maxExp = 10;
+    float                                exp = 0;
+    sf::RectangleShape                   hpBar;
+    sf::RectangleShape                   expBar;
+    float                                expRadius = 50;
 
     void setWeaponIconsPositions();
+
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
     Hero(const std::string& spriteName, sf::Vector2f position, const std::vector<std::shared_ptr<Weapon>>& weapons);
 
-    Hero(const std::string& spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon);
+    Hero(const std::string& spriteName, sf::Vector2f position, const std::shared_ptr<Weapon>& weapon):
+    Hero(spriteName, position, std::vector<std::shared_ptr<Weapon>> {weapon}) {};
 
     explicit Hero(Hero *other);
 
@@ -29,6 +42,8 @@ public:
     float getSpeed() const override;
 
     std::vector<Direction> getDirections() const override;
+
+    float getExpRadius() const override;
 
     void moveUp();
 
@@ -48,7 +63,13 @@ public:
 
     void move();
 
-    void attack(float elapsedTime, const std::shared_ptr<EnemiesInterface>& enemies);
+    void attack(float elapsedTime, const std::shared_ptr<EnemiesInterface>& enemies, Experience& experience);
+
+    void enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies);
+
+    void experienceCollision(Experience& experience);
+
+    bool isDeath() const;
 };
 
 #endif //KABAN_GAMES_HERO_H

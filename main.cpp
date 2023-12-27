@@ -1,5 +1,4 @@
 #include <Graphics.hpp>
-#include <iostream>
 #include "Common/Random.h"
 #include "Hero/Hero.h"
 #include "Enemy/Enemies.h"
@@ -7,6 +6,7 @@
 #include "Weapon/Sword.h"
 #include "Bow.h"
 #include "Environments/Background.h"
+#include "Experience.h"
 
 void createWindow(sf::RenderWindow& window)
 {
@@ -16,6 +16,7 @@ void createWindow(sf::RenderWindow& window)
             sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
             "Kaban Survivors", sf::Style::Fullscreen, settings);
     window.setFramerateLimit(MAX_FPS);
+    window.setMouseCursorVisible(false);
 }
 
 void handleEvents(sf::RenderWindow& window, Hero& hero)
@@ -68,28 +69,34 @@ void handleEvents(sf::RenderWindow& window, Hero& hero)
     }
 }
 
-void update(sf::Clock& clock, Background& background, Hero& hero, Enemies& enemies)
+void update(sf::Clock& clock, Background& background, Experience& experience, Hero& hero, Enemies& enemies)
 {
     const float elapsedTime = clock.restart().asSeconds();
     hero.move();
     hero.update();
 
     std::shared_ptr<Enemies> enemiesPtr = std::make_shared<Enemies>(enemies);
-    hero.attack(elapsedTime, enemiesPtr);
+    hero.attack(elapsedTime, enemiesPtr, experience);
+    hero.enemiesCollision(enemiesPtr);
     enemies.setEnemies(enemiesPtr->getEnemies());
+
+    hero.experienceCollision(experience);
 
     background.move(elapsedTime, std::make_shared<Hero>(hero));
     background.update();
+
+    experience.move(elapsedTime, std::make_shared<Hero>(hero));
 
     enemies.enemiesCollision(elapsedTime);
     enemies.move(elapsedTime, std::make_shared<Hero>(hero));
     enemies.update();
 }
 
-void render(sf::RenderWindow& window, Background& background, const Hero& hero, Enemies& enemies)
+void render(sf::RenderWindow& window, Background& background, Experience& experience, const Hero& hero, Enemies& enemies)
 {
     window.clear(sf::Color(0xFF, 0xF2, 0xCC));
     window.draw(background);
+    window.draw(experience);
     window.draw(hero);
     for (Enemy& enemy : enemies.getEnemies())
     {
@@ -108,11 +115,12 @@ int main()
     createWindow(window);
 
     Background background(BACKGROUND_PATH);
+    Experience experience(EXPERIENCE_PATH);
 
-    Sword sword(SWORD_PATH, SWORD_PATH);
-    Bow bow(BOW_PATH, BOW_PATH);
+    Sword sword(SWORD_PATH, SWORD_AMMO_PATH);
+    Bow bow(BOW_PATH, BOW_AMMO_PATH);
 
-    Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, {std::make_shared<Sword>(sword), std::make_shared<Bow>(bow)});
+    Hero knight(KNIGHT_PATH, { (float)WINDOW_WIDTH / 2, (float)WINDOW_HEIGHT / 2 }, std::make_shared<Sword>(sword));
 
     Enemies enemies;
     enemies.add(BOAR_PATH, 30);
@@ -121,7 +129,10 @@ int main()
     while (window.isOpen())
     {
         handleEvents(window, knight);
-        update(clock, background, knight, enemies);
-        render(window, background, knight, enemies);
+        if (!knight.isDeath())
+        {
+            update(clock, background, experience, knight, enemies);
+        }
+        render(window, background, experience, knight, enemies);
     }
 }

@@ -36,7 +36,7 @@ void Weapon::attack(float elapsedTime)
     }
 }
 
-void Weapon::enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies)
+void Weapon::enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies, Experience& experience)
 {
     std::vector<Enemy> newEnemies = enemies->getEnemies();
     for (auto & tile : ammo)
@@ -51,12 +51,12 @@ void Weapon::enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies)
             bool rightCollision = weaponPosition.x + weaponSize.x / 2 >= enemyPosition.x - enemySize.x / 2;
             bool bottomCollision = weaponPosition.y + weaponSize.y / 2 >= enemyPosition.y - enemySize.y / 2;
             bool leftCollision = weaponPosition.x - weaponSize.x / 2 <= enemyPosition.x + enemySize.x / 2;
-            if (topCollision && rightCollision && bottomCollision && leftCollision && !enemy.getIsHit()) {
+            if (topCollision && rightCollision && bottomCollision && leftCollision) {
                 enemy.setHp(enemy.getHp() - damage);
-                enemy.setIsHit(true);
                 enemyCollision(tile);
             }
             if (enemy.getHp() <= 0) {
+                experience.spawn(enemyPosition);
                 enemy.setHp(enemy.getMaxHp());
                 enemy.respawn(getRandomSide());
             }

@@ -5,6 +5,7 @@
 #include "DrawableEntity.h"
 #include "HeroInterface.h"
 #include "EnemiesInterface.h"
+#include "Experience.h"
 
 class Weapon : public DrawableEntity
 {
@@ -32,7 +33,7 @@ public:
 
     void attack(float elapsedTime);
 
-    void enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies);
+    void enemiesCollision(const std::shared_ptr<EnemiesInterface>& enemies, Experience& experience);
 
     virtual void setDefaultPosition(const std::shared_ptr<EnemiesInterface>& enemies) = 0;
 

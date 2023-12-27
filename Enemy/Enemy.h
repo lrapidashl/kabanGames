@@ -16,15 +16,15 @@ private:
 
     float hp = 60;
 
-    bool isHit = false;
-
-    float damage = 2;
+    float damage = 0.5;
 
     static float getVectorLength(sf::Vector2f vector);
 
     void moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
 
     void moveToHero(float elapsedTime, const std::shared_ptr<HeroInterface>& hero);
+
+    void checkOutOfScreen();
 public:
     Enemy(const std::string& spriteName, sf::Vector2f position);
 
@@ -40,9 +40,7 @@ public:
 
     void setHp(float hp);
 
-    bool getIsHit() const;
-
-    void setIsHit(bool isHit);
+    float getDamage() const;
 
     void respawn(Side side);
 

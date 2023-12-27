@@ -11,7 +11,7 @@ Enemy::Enemy(const std::string &spriteName, sf::Vector2f position)
 }
 
 Enemy::Enemy(const Enemy& other)
-: DrawableEntity(other), hp(other.hp), maxHp(other.maxHp), speed(other.speed), isHit(other.isHit), damage(other.damage)
+: DrawableEntity(other), hp(other.hp), maxHp(other.maxHp), speed(other.speed), damage(other.damage)
 {
 }
 
@@ -35,14 +35,9 @@ void Enemy::setHp(float hp)
     this->hp = hp;
 }
 
-bool Enemy::getIsHit() const
+float Enemy::getDamage() const
 {
-    return isHit;
-}
-
-void Enemy::setIsHit(bool isHit)
-{
-    this->isHit = isHit;
+    return damage;
 }
 
 void Enemy::respawn(Side side)
@@ -78,6 +73,7 @@ void Enemy::move(float elapsedTime, const std::shared_ptr<HeroInterface> &hero)
 {
     moveToHero(elapsedTime, hero);
     moveByHeroDirection(elapsedTime, hero);
+    checkOutOfScreen();
 }
 
 float Enemy::getVectorLength(sf::Vector2f vector)
@@ -131,4 +127,25 @@ void Enemy::moveByHeroDirection(float elapsedTime, const std::shared_ptr<HeroInt
         position += elapsedTime * sf::Vector2f(hero->getSpeed(), 0);
     }
     setPosition(position);
+}
+
+void Enemy::checkOutOfScreen()
+{
+    sf::Vector2f enemyPosition = getPosition();
+    if (enemyPosition.x < -RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)
+    {
+        respawn(Side::LEFT);
+    }
+    if (enemyPosition.y < -RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)
+    {
+        respawn(Side::BOTTOM);
+    }
+    if (enemyPosition.x > WINDOW_WIDTH + RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)
+    {
+        respawn(Side::RIGHT);
+    }
+    if (enemyPosition.y > WINDOW_HEIGHT + RENDER_DISTANCE * RENDER_SPREAD_MULTIPLY)
+    {
+        respawn(Side::TOP);
+    }
 }

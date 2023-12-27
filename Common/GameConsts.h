@@ -14,7 +14,10 @@ const int RENDER_SPREAD_MULTIPLY = 5;
 const std::string KNIGHT_PATH = "../images/heroes/knight.png";
 const std::string BOAR_PATH = "../images/enemies/boar.png";
 const std::string SWORD_PATH = "../images/weapons/sword.png";
+const std::string SWORD_AMMO_PATH = "../images/weapons/sword_ammo.png";
 const std::string BOW_PATH = "../images/weapons/bow.png";
+const std::string BOW_AMMO_PATH = "../images/weapons/bow_ammo.png";
 const std::string BACKGROUND_PATH = "../images/environments/background.png";
+const std::string EXPERIENCE_PATH = "../images/environments/experience.png";
 
 #endif //KABAN_GAMES_GAMECONSTS_H

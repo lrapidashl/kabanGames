@@ -14,6 +14,8 @@ public:
     virtual float getSpeed() const = 0;
 
     virtual std::vector<Direction> getDirections() const = 0;
+
+    virtual float getExpRadius() const = 0;
 };
 
 #endif //KABAN_GAMES_HEROINTERFACE_H
